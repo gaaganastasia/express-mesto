@@ -1,0 +1,8 @@
+{
+  "extends": ["airbnb-base", "eslint:recommended", "plugin:react/recommended"],
+  "allowAfterThis": true,
+  "allowAfterSuper": true,
+  "allowAfterThisConstructor": true,
+  "enforceInMethodNames": true,
+  "allowFunctionParams": false
+}
