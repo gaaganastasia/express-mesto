@@ -1,9 +1,9 @@
 const path = require('path');
 const readJson = require('../utils/readJsonFromFile');
 
-const getUsers = (req, res) => {
-  const fileName = path.join(__dirname, '..', 'data', 'users.json');
+const fileName = path.join(__dirname, '..', 'data', 'users.json');
 
+const getUsers = (req, res) => {
   readJson(fileName)
     .then((users) => {
       res.send(users);
@@ -15,7 +15,6 @@ const getUsers = (req, res) => {
 
 const getUser = (req, res) => {
   const { id } = req.params;
-  const fileName = path.join(__dirname, '..', 'data', 'users.json');
 
   readJson(fileName)
     .then((users) => {
