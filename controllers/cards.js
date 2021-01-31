@@ -18,7 +18,7 @@ const createCard = (req, res) => {
       res.send(card);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         res.status(400).send({ message: 'Переданы некорректные данные' });
       } else {
         res.status(500).send({ message: 'Произошла ошибка' });
@@ -29,13 +29,17 @@ const createCard = (req, res) => {
 const removeCard = (req, res) => {
   Card.findByIdAndRemove(req.params.id)
     .then((card) => {
-      res.send(card);
+      if (card) {
+        res.send(card);
+      } else {
+        res.status(404).send({ message: 'Card is not found' });
+      }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         res.status(404).send({ message: 'Card is not found' });
       } else {
-        res.status(500).send({ message: 'Произошла ошибка' });
+        res.status(400).send({ message: 'Произошла ошибка' });
       }
     });
 };
@@ -47,13 +51,17 @@ const likeCard = (req, res) => {
     { new: true },
   )
     .then((card) => {
-      res.send(card);
+      if (card) {
+        res.send(card);
+      } else {
+        res.status(404).send({ message: 'Card is not found' });
+      }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         res.status(404).send({ message: 'Card is not found' });
       } else {
-        res.status(500).send({ message: 'Произошла ошибка' });
+        res.status(400).send({ message: 'Произошла ошибка' });
       }
     });
 };
@@ -65,13 +73,17 @@ const dislikeCard = (req, res) => {
     { new: true },
   )
     .then((card) => {
-      res.send(card);
+      if (card) {
+        res.send(card);
+      } else {
+        res.status(404).send({ message: 'Card is not found' });
+      }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         res.status(404).send({ message: 'Card is not found' });
       } else {
-        res.status(500).send({ message: 'Произошла ошибка' });
+        res.status(400).send({ message: 'Произошла ошибка' });
       }
     });
 };
