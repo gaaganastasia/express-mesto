@@ -1,4 +1,5 @@
 const Card = require('../models/card');
+const errorHandler = require('../utils/utils');
 
 const getCards = (req, res) => {
   Card.find({})
@@ -18,11 +19,7 @@ const createCard = (req, res) => {
       res.send(card);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Переданы некорректные данные' });
-      } else {
-        res.status(500).send({ message: 'Произошла ошибка' });
-      }
+      errorHandler(res, err);
     });
 };
 
@@ -36,11 +33,7 @@ const removeCard = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(404).send({ message: 'Card is not found' });
-      } else {
-        res.status(400).send({ message: 'Произошла ошибка' });
-      }
+      errorHandler(res, err);
     });
 };
 
@@ -58,11 +51,7 @@ const likeCard = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(404).send({ message: 'Card is not found' });
-      } else {
-        res.status(400).send({ message: 'Произошла ошибка' });
-      }
+      errorHandler(res, err);
     });
 };
 
@@ -80,11 +69,7 @@ const dislikeCard = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(404).send({ message: 'Card is not found' });
-      } else {
-        res.status(400).send({ message: 'Произошла ошибка' });
-      }
+      errorHandler(res, err);
     });
 };
 

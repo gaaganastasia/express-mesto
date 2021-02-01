@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const errorHandler = require('../utils/utils');
 
 const getUsers = (req, res) => {
   User.find({})
@@ -6,7 +7,7 @@ const getUsers = (req, res) => {
       res.send(users);
     })
     .catch((err) => {
-      res.status(400).send(err);
+      res.status(500).send(err);
     });
 };
 
@@ -20,11 +21,7 @@ const getUser = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(404).send({ message: 'User is not found' });
-      } else {
-        res.status(400).send({ message: 'Произошла ошибка' });
-      }
+      errorHandler(res, err);
     });
 };
 
@@ -36,18 +33,14 @@ const createUser = (req, res) => {
       res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Переданы некорректные данные' });
-      } else {
-        res.status(500).send({ message: 'Произошла ошибка' });
-      }
+      errorHandler(res, err);
     });
 };
 
 const updateProfileInfo = (req, res) => {
   const { name, about } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { name, about })
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (name && about) {
         res.send(user);
@@ -56,18 +49,14 @@ const updateProfileInfo = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Переданы некорректные данные' });
-      } else {
-        res.status(400).send({ message: 'Произошла ошибка' });
-      }
+      errorHandler(res, err);
     });
 };
 
 const updateProfileAvatar = (req, res) => {
   const { avatar } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { avatar })
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => {
       if (avatar) {
         res.send(user);
@@ -76,11 +65,7 @@ const updateProfileAvatar = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Переданы некорректные данные' });
-      } else {
-        res.status(400).send({ message: 'Произошла ошибка' });
-      }
+      errorHandler(res, err);
     });
 };
 
